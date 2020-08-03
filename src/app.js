@@ -20,7 +20,7 @@ export function createApp () {
   sync(store,router)
 
   //拦截路由，获取标题等信息
-  router.beforeEach((to, from, next) => {
+  router.beforeResolve((to, from, next) => {
     store.commit({
       type: 'setMetaInfo',
       title: '测试'+to.path,
