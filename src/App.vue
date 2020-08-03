@@ -10,6 +10,8 @@
 
 <script>
 export default {
+
+  //仅用于clint模式下
   mounted() {
     //路由跳转前执行
     this.$router.beforeEach((to, from, next) => {
@@ -21,6 +23,21 @@ export default {
       ;
 
     })
+  },
+  metaInfo() {
+    return {
+      title: this.$store.state.metaInfo.title,
+      meta: [
+        {
+          name: "keywords",
+          content: this.$store.state.metaInfo.keywords
+        },
+        {
+          name: "description",
+          content: this.$store.state.metaInfo.description
+        }
+      ]
+    };
   }
 }
 </script>

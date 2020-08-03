@@ -22,6 +22,7 @@ export default {
       console.log(err);
       next()
     }) */
+
     next()
 
   },

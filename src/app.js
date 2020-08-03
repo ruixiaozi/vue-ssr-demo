@@ -4,9 +4,12 @@ import Vue from 'vue'
 import App from './App.vue'
 import {createRouter} from './router'
 import {createStore} from './store'
+import Meta from 'vue-meta'
 import {sync} from 'vuex-router-sync'
 
 import '../public/css/global.css'
+
+Vue.use(Meta);
 
 // 导出一个工厂函数，用于创建新的
 // 应用程序、router 和 store 实例
@@ -15,6 +18,17 @@ export function createApp () {
   const store = createStore();
 
   sync(store,router)
+
+  //拦截路由，获取标题等信息
+  router.beforeEach((to, from, next) => {
+    store.commit({
+      type: 'setMetaInfo',
+      title: '测试'+to.path,
+      keywords: '',
+      description: ''
+    })
+    next();
+  })
 
   const app = new Vue({
     store,
