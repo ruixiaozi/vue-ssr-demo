@@ -16,22 +16,30 @@ const renderer = createBundleRenderer(serverBundle, {
 
 // 中间件处理静态文件请求
 app.use(express.static('../dist/client', {index: false}))
-// app.use(express.static('../dist/client'))
 
 // 路由处理交给vue
 app.get("*", async (req, res) => {
-  try {
-      const context = {
-          url: req.url
-      }
-
-    const html = await renderer.renderToString(context);
-    // eslint-disable-next-line no-console
-    console.log(html);
-    res.send(html);
-  } catch (error) {
-    res.status(500).send("服务器内部错误");
+  const context = {
+      url: req.url
   }
+
+  await renderer.renderToString(context, (err, html) => {
+    if (err){
+      res.status(500).send("服务器内部错误");
+      return;
+    }
+
+
+    //添加描述信息
+    if(typeof(context.meta) != undefined){
+      const { title, meta } = context.meta.inject();
+      html = html.replace(/<title.*?<\/title>/g,title.text())
+                .replace(/<meta.*name="description".*>/,meta.text());
+    }
+
+    res.send(html);
+    return;
+  });
 });
 
 app.listen(3000, () => {

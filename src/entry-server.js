@@ -7,7 +7,11 @@ export default context => {
   return new Promise((resolve,reject) => {
     //创建app
     const { app,router } = createApp();
-    
+
+    const meta = app.$meta() // 这行
+
+    context.meta = meta;
+
     //进入对应页面（可能存在异步）
     router.push(context.url);
 
