@@ -4,9 +4,19 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 
-//解决点击重复路由时报错
+//点击路由时加一个签名查询字符串
+//捕获错误信息
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
+
+  //点击路由时加一个签名查询字符串
+  /*
+  if(typeof(location) == "string")
+    location = {path: location,query:{}}
+
+  location.query.__sign = md5(new Date().getTime().toString());
+  */
+
   return originalPush.call(this, location).catch(err => err)
 }
 
