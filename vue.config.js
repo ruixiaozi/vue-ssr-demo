@@ -70,6 +70,8 @@ module.exports = {
     plugins: [(TARGET_NODE ? new VueSSRServerPlugin() : new VueSSRClientPlugin())]
   }),
   chainWebpack: config => {
+    //取消预加载
+    config.plugins.delete('prefetch').delete('preload');
     config.module
       .rule("vue")
       .use("vue-loader")

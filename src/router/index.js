@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import Home from '../views/Home.vue'
+import About from '../views/About.vue'
+
 //解决点击重复路由时报错
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -13,12 +16,12 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import( '../views/Home.vue')
+    component: Home,
   },
   {
     path: '/about',
     name: 'About',
-    component: () => import( '../views/About.vue')
+    component: About,
   }
 ]
 

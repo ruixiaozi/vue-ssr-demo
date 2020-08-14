@@ -11,7 +11,14 @@ const clientManifest = require('../dist/client/vue-ssr-client-manifest.json');
 const renderer = createBundleRenderer(serverBundle, {
     runInNewContext: false,
     template: fs.readFileSync('../public/index.template.html', 'utf-8'), // 宿主模板文件
-    clientManifest
+    clientManifest,
+    //取消预加载
+    shouldPreload: (file, type) => {
+      return false;
+    },
+    shouldPrefetch: (file, type) => {
+      return false;
+    },
 })
 
 // 中间件处理静态文件请求
